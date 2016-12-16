@@ -13,3 +13,6 @@
 
 [pull]
 	rebase = preserve
+
+[push]
+  default = simple
