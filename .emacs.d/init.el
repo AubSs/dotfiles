@@ -6,21 +6,23 @@
 (require 'package)
 
 (add-to-list 'package-archives
-       '("melpa" . "http://melpa.org/packages/") t)
+             '("melpa" . "https://melpa.org/packages/"))
 
 (package-initialize)
+
 (when (not package-archive-contents)
   (package-refresh-contents))
 
 
 (defvar myPackages
   '(better-defaults
+    use-package
     ein
     yaml-mode
     elpy
     flycheck
     material-theme
-    tangotango-theme
+    markdown-mode
     py-autopep8))
 
 (mapc #'(lambda (package)
@@ -28,8 +30,18 @@
       (package-install package)))
       myPackages)
 
+
 ;; BASIC CUSTOMIZATION
 ;; --------------------------------------
+
+(progn
+  ;; make indentation commands use space only (never tab character)
+  (setq-default indent-tabs-mode nil)
+  ;; emacs 23.1 to 26, default to t
+  ;; if indent-tabs-mode is t, it means it may use tab, resulting mixed space and tab
+  )
+;; set default tab char's display width to 2 spaces
+(setq-default tab-width 2) ; emacs 23.1 to 26 default to 8
 
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme
@@ -70,8 +82,21 @@
 ;; --------------------------------------
 
 (elpy-enable)
-(setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "-i --simple-prompt")
+;;(setq python-shell-interpreter "ipython3"
+;;      python-shell-interpreter-args "-i --simple-prompt")
+(setq doom-modeline-python-executable "python3")
+(setq python-shell-interpreter "python3")
+(setq python-shell-interpreter-args "-m IPython --simple-prompt -i")
+(setq flycheck-python-pycompile-executable "python3"
+      flycheck-python-pylint-executable "python3"
+      flycheck-python-flake8-executable "python3")
+(setq doom-modeline-major-mode-icon nil
+      doom-modeline-persp-name t
+      doom-modeline-github t
+      doom-modeline-version t
+      doom-modeline-minor-modes t)
+(setq persp-nil-name "#")
+(setq minions-mode-line-lighter "◎")
 
 ;; use flycheck not flymake with elpy
 (when (require 'flycheck nil t)
@@ -82,7 +107,21 @@
 (require 'py-autopep8)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
-;; disable auto-save, auto-backup, auto-save dir
+
+;; MARKDOWN CONFIGURATION
+;; --------------------------------------
+
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
+
+;; Disable auto-save, auto-backup, auto-save dir
+;; --------------------------------------
 (setq auto-save-list-file-prefix nil)
 (setq auto-save-default nil)
 (setq make-backup-files nil)
