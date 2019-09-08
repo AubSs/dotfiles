@@ -2,7 +2,7 @@
 
 ;; INSTALL PACKAGES
 ;; --------------------------------------
- 
+
 (require 'package)
 
 (add-to-list 'package-archives
@@ -17,7 +17,6 @@
 (defvar myPackages
   '(better-defaults
     use-package
-    ein
     yaml-mode
     elpy
     flycheck
@@ -41,7 +40,7 @@
   ;; if indent-tabs-mode is t, it means it may use tab, resulting mixed space and tab
   )
 ;; set default tab char's display width to 2 spaces
-(setq-default tab-width 2) ; emacs 23.1 to 26 default to 8
+(setq-default tab-width 4) ; emacs 23.1 to 26 default to 8
 
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme
@@ -64,29 +63,26 @@
 (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
 
 ;; Enable mouse support
-(unless window-system
-  (require 'mouse)
-  (xterm-mouse-mode t)
-  (global-set-key [mouse-4] (lambda ()
-                              (interactive)
-                              (scroll-down 1)))
-  (global-set-key [mouse-5] (lambda ()
-                              (interactive)
-                              (scroll-up 1)))
-  (defun track-mouse (e))
-  (setq mouse-sel-mode t)
-  )
+;;(unless window-system
+;;  (require 'mouse)
+;;  (xterm-mouse-mode t)
+;;  (global-set-key [mouse-4] (lambda ()
+;;                              (interactive)
+;;                              (scroll-down 1)))
+;;  (global-set-key [mouse-5] (lambda ()
+;;                              (interactive)
+;;                              (scroll-up 1)))
+;;  (defun track-mouse (e))
+;;  (setq mouse-sel-mode t)
+;;  )
 
 
 ;; PYTHON CONFIGURATION
 ;; --------------------------------------
 
 (elpy-enable)
-;;(setq python-shell-interpreter "ipython3"
-;;      python-shell-interpreter-args "-i --simple-prompt")
 (setq doom-modeline-python-executable "python3")
 (setq python-shell-interpreter "python3")
-(setq python-shell-interpreter-args "-m IPython --simple-prompt -i")
 (setq flycheck-python-pycompile-executable "python3"
       flycheck-python-pylint-executable "python3"
       flycheck-python-flake8-executable "python3")
@@ -127,17 +123,3 @@
 (setq make-backup-files nil)
 
 ;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (yaml-mode py-autopep8 material-theme flycheck elpy ein better-defaults))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
